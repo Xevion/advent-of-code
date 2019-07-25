@@ -2,7 +2,7 @@ import os, sys, pyperclip
 
 path = os.path.join(sys.path[0], '..', 'input')
 data = open(path, 'r').read()
-data = map(int, data.split())
+data = map(int, data.split('\n'))
 data = sum(data)
 
 print(data)
