@@ -4,9 +4,9 @@ import time, re, datetime, pprint, string, process_input
 data = process_input.process()
 
 # Comment this out to use real puzzle data
-import sys, os
-path = os.path.join(sys.path[0], '..', 'processed_input')
-data = open(path, 'r').read().split('\n')
+# import sys, os
+# path = os.path.join(sys.path[0], '..', 'processed_input')
+# data = open(path, 'r').read().split('\n')
 
 # Pattern Constants & pprint
 pprint = pprint.PrettyPrinter(width=1000).pprint
@@ -21,10 +21,11 @@ class GuardData:
     
     # Grabs the guard with the best singular minute
     def best_minute(self):
-        # Finds the guard based on the guard's most slept minute
-        guard =  max(self.guards.items(), key=lambda item : max(enumerate(item[1]['minutes']), key=lambda minute : minute[1]))
-        # Return the guard selected's best minute and the minute count and the id of the guard.
-        return guard[0], max(enumerate(guard[1]['minutes']), key=lambda item : item[1])
+        guard = max(self.guards.items(), key=lambda item : self.guard_best_minute(item[0])[1])
+        return guard[0], (self.guard_best_minute(guard[0]))
+
+    def guard_best_minute(self, id):
+        return max(enumerate(self.guards[id]['minutes']), key=lambda i : i[1])
 
     # Returns the guard item with the highest total
     def best_total(self):
@@ -87,23 +88,25 @@ charset = string.digits + string.ascii_lowercase + string.ascii_uppercase
 def format_print(guard_data):
     table = []
     # Header parts
-    minutes = map(lambda num : str(num).zfill(2), range(60))
-    minutes = list(map(lambda num : (num[0], num[1]), minutes))
-    top, bottom = ' '.join(minutes[i][0] for i in range(len(minutes))), ' '.join(minutes[i][1] for i in range(len(minutes)))
-    headerp1 = ["ID".ljust(6), "Total", top]
+    minutes = list(map(lambda num : list(str(num).zfill(2)), range(60)))
+    top, bottom = '|'.join(minutes[i][0] for i in range(len(minutes))), '|'.join(minutes[i][1] for i in range(len(minutes)))
+    headerp1 = ["ID".ljust(6), "Total", bottom]
     table.append(' | '.join(headerp1))
-    table.append(bottom.rjust(len(table[0])))
-
+    table.insert(0,     top.rjust(len(table[0])))
+    table.append('-' * len(table[-1]))
+    table.insert(0, '-' * len(table[-1]))
     guard_data = sorted(guard_data.guards.items(), key=lambda item : item[0])
     for guard in guard_data:
         row = [
-            str(str(guard[0]).ljust(6)),
+            str(str(guard[0]).rjust(6).ljust(6)),
             str(guard[1]['total']).ljust(5),
                 ' '.join(['.' if minute == 0 else charset[minute % len(charset)] for minute in guard[1]['minutes']])
         ]
         row[2] = row[2].rjust(len(bottom))
         table.append('   '.join(row))
     return '\n'.join(table)
+
+print(format_print(guard_data))
 
 id, total = guard_data.best_total()
 minute, minute_count = guard_data.guard_best_minute(guard_data.best_total()[0])
@@ -115,6 +118,4 @@ id, (minute, minute_count) = guard_data.best_minute()
 print(f'Guard {id} spent minute {minute} the most @ {minute_count} times.')
 p2 = id * minute
 
-print(f'\nPart 1 solution: {p1}\nPart 2 solution: {p2}')
-
-print(format_print(guard_data))
+print(f'\nPart 1 solution: {p1}\nPart 2 solution: {p2}\n')
