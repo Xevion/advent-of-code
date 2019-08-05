@@ -24,6 +24,7 @@ class GuardData:
         guard = max(self.guards.items(), key=lambda item : self.guard_best_minute(item[0])[1])
         return guard[0], (self.guard_best_minute(guard[0]))
 
+    # Returns the minute the guard selected was asleep the most, along with how much
     def guard_best_minute(self, id):
         return max(enumerate(self.guards[id]['minutes']), key=lambda i : i[1])
 
@@ -31,10 +32,6 @@ class GuardData:
     def best_total(self):
         best = max(self.guards.items(), key=lambda item : item[1]['total'])
         return best[0], best[1]['total']
-
-    # Returns the minute the guard selected was asleep the most, along with how much
-    def guard_best_minute(self, id):
-        return max(enumerate(self.guards[id]['minutes']), key=lambda item : item[1])
 
     # Simply ensures the guard exists.
     # Otherwise, it will initalize a guard with the id.
