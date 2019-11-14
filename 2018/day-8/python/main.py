@@ -14,7 +14,7 @@ class Node(object):
 
     def run(self):
         curadd = 0
-        for i in range(self.childnum):
+        for _ in range(self.childnum):
             self.children.append(
                 Node(self.input, self.root + 2 + curadd)
             )
@@ -36,7 +36,7 @@ class Node(object):
     def __repr__(self):
         return f'Node at index {self.root}'
 
-    # Part 2
+    # Part 2 Solution Function
     def getValue(self):
         if self.childnum == 0:
             return sum(self.entries)
