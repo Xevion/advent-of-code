@@ -1,11 +1,10 @@
 import re
 import os
 import sys
+import time
 
 import numpy as np
 import matplotlib.pyplot as plt
-
-from collections import namedtuple
 
 
 # Constants
@@ -24,9 +23,6 @@ class MovingPoint(object):
         self.pos = [int(match.group(1)), int(match.group(2))]
         self.vel = [int(match.group(3)), int(match.group(4))]
 
-    def calculate(self, t):
-        return Point(self.pos[0] + (self.vel[0] * t), self.pos[1] + (self.vel[1] * t))
-
     def simulate(self, t=1):
         self.pos[0] += self.vel[0] * t
         self.pos[1] += self.vel[1] * t
@@ -34,6 +30,8 @@ class MovingPoint(object):
     def __repr__(self):
         return f"<MovingPoint pos({self.pos[0]}, {self.pos[1]}) vel({self.vel[0]}, {self.vel[1]})"
 
+
+# Matrix class for managing a list of points and quickly running simulation
 class Matrix(object):
     def __init__(self, input):
         self.points = []
@@ -79,12 +77,14 @@ print('Matrix built, copy made.')
 
 # Simulate all likely points in time of message
 print('Simulating')
+t1 = time.time()
 for i in range(11000):
     difX = abs(matrix.maxX - matrix.minX)
     difY = abs(matrix.maxY - matrix.minY)
     difs.append(difX + difY)
     matrix.simulate(1)
-print('Simulated')
+t2 = time.time()
+print(f'Simulated in {round(t2 - t1, 2)} seconds')
 
 # Point in time where all points are closest
 best = min(list(enumerate(difs)), key=lambda x:x[1])
