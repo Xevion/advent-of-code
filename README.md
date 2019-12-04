@@ -19,7 +19,7 @@ Day 2 - :heavy_check_mark:
 
 Day 3 - :heavy_check_mark:
 
-Day 4 - :x:
+Day 4 - :heavy_check_mark:
 
 Day 5 - :x:
 
