@@ -21,13 +21,13 @@ Day 3 - :heavy_check_mark:
 
 Day 4 - :heavy_check_mark:
 
-Day 5 - :x:
+Day 5 - :heavy_check_mark:
 
-Day 6 - :x:
+Day 6 - :heavy_check_mark:
 
-Day 7 - :x:
+Day 7 - :heavy_check_mark:
 
-Day 8 - :x:
+Day 8 - :heavy_check_mark:
 
 Day 9 - :x:
 
